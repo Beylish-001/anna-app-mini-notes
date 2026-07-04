@@ -1,0 +1,3 @@
+# Sampling fixture for `anna-app executa dev --mock-sampling`.
+# One JSON object per line. Match the first entry whose ns+method matches.
+{"ns":"sampling","method":"createMessage","result":{"role":"assistant","content":{"type":"text","text":"These notes cover a customer follow-up, a login bug fix, and workshop planning ideas. Prioritize the login bug, schedule the follow-up, and capture workshop topics while they are fresh."},"model":"mock-model","stopReason":"endTurn"}}

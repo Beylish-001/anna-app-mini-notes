@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Notes</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="header">
+        <h1>Mini Notes</h1>
+        <span id="conn-status" class="conn-status">connecting…</span>
+      </header>
+
+      <section class="composer">
+        <textarea
+          id="note-input"
+          rows="3"
+          placeholder="写一条简短笔记…"
+          maxlength="500"
+        ></textarea>
+        <button id="save-btn" type="button">保存</button>
+      </section>
+
+      <section class="summary-panel">
+        <button id="summarize-btn" type="button">Summarize</button>
+        <div id="summary-output" class="summary-output" hidden></div>
+        <p id="summary-error" class="summary-error" hidden></p>
+      </section>
+
+      <section class="notes-section">
+        <h2>笔记列表</h2>
+        <p id="empty-state" class="empty-state">还没有笔记，写一条吧。</p>
+        <ul id="notes-list" class="notes-list"></ul>
+      </section>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+name: Build & Release Executa Binaries
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            platform: darwin-arm64
+            archive_ext: tar.gz
+          - os: macos-13
+            platform: darwin-x86_64
+            archive_ext: tar.gz
+          - os: windows-latest
+            platform: windows-x86_64
+            archive_ext: zip
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build binary
+        shell: bash
+        run: |
+          cd executas/notes-summarizer
+          SDK_PATH="$(pwd)/../../sdk/python"
+          export PYTHONPATH="$SDK_PATH"
+          pyinstaller \
+            --onefile \
+            --name tool-test-notes-summarizer-12345678 \
+            --clean \
+            --noupx \
+            --hidden-import executa_sdk \
+            --hidden-import executa_sdk.sampling \
+            --paths "$SDK_PATH" \
+            notes_summarizer.py
+
+      - name: Smoke test describe
+        shell: bash
+        run: |
+          cd executas/notes-summarizer
+          if [[ "${{ matrix.platform }}" == windows-* ]]; then
+            BIN="dist/tool-test-notes-summarizer-12345678.exe"
+          else
+            BIN="dist/tool-test-notes-summarizer-12345678"
+          fi
+          echo '{"jsonrpc":"2.0","method":"describe","id":1}' | "$BIN" 2>/dev/null | \
+            python3 -c "import sys,json; d=json.load(sys.stdin); assert d['result']['name']=='tool-test-notes-summarizer-12345678'; print('describe ok')"
+
+      - name: Package archive
+        shell: bash
+        run: |
+          cd executas/notes-summarizer
+          TOOL_ID="tool-test-notes-summarizer-12345678"
+          PLATFORM="${{ matrix.platform }}"
+          if [[ "$PLATFORM" == windows-* ]]; then
+            BIN="$TOOL_ID.exe"
+          else
+            BIN="$TOOL_ID"
+          fi
+          mkdir -p dist/stage
+          cp "dist/$BIN" "dist/stage/$BIN"
+          cat > dist/stage/manifest.json <<EOF
+{
+  "name": "$TOOL_ID",
+  "version": "1.0.0",
+  "runtime": {
+    "binary": {
+      "entrypoint": {
+        "default": "$BIN",
+        "windows-x86_64": "${TOOL_ID}.exe"
+      },
+      "permissions": {
+        "$BIN": "0o755"
+      }
+    }
+  }
+}
+EOF
+          if [[ "$PLATFORM" == windows-* ]]; then
+            (cd dist/stage && powershell Compress-Archive -Path * -DestinationPath "../${TOOL_ID}-${PLATFORM}.zip")
+          else
+            tar -czf "dist/${TOOL_ID}-${PLATFORM}.tar.gz" -C dist/stage .
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform }}
+          path: executas/notes-summarizer/dist/tool-test-notes-summarizer-12345678-*
+
+      - name: Upload to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: executas/notes-summarizer/dist/tool-test-notes-summarizer-12345678-*

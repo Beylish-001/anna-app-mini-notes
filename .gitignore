@@ -1,0 +1,13 @@
+node_modules/
+dist/
+bundle/
+executas/notes-summarizer/dist/
+executas/notes-summarizer/build/
+executas/notes-summarizer/*.spec
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.DS_Store
+_refs/
+*.log

@@ -1,0 +1,21 @@
+{
+  "name": "anna-app-mini-notes",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Mini Notes with LLM Summary — Anna App internship test",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "anna-app dev",
+    "dev:no-llm": "anna-app dev --no-llm",
+    "validate": "anna-app validate --strict",
+    "executa:dev": "anna-app executa dev --dir executas/notes-summarizer --mock-sampling fixtures/sampling-mock.jsonl",
+    "executa:describe": "anna-app executa dev --dir executas/notes-summarizer --describe",
+    "executa:invoke": "anna-app executa dev --dir executas/notes-summarizer --mock-sampling fixtures/sampling-mock.jsonl --invoke summarize_notes --args \"{\\\"notes\\\":[{\\\"order\\\":1,\\\"content\\\":\\\"明天跟客户 follow up\\\"},{\\\"order\\\":2,\\\"content\\\":\\\"修复登录 bug\\\"}]}\"",
+    "package:executa": "powershell -ExecutionPolicy Bypass -File executas/notes-summarizer/build_binary.ps1"
+  },
+  "devDependencies": {
+    "@anna-ai/cli": "^0.1.22",
+    "vite": "^6.2.0"
+  }
+}

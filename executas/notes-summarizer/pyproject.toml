@@ -1,0 +1,27 @@
+[project]
+name = "notes-summarizer"
+version = "1.0.0"
+description = "Summarize Mini Notes via host LLM sampling (Executa v2)"
+requires-python = ">=3.10"
+authors = [{ name = "Mini Notes Author" }]
+license = { text = "MIT" }
+dependencies = [
+    "executa-sdk>=0.1.0",
+]
+
+[project.optional-dependencies]
+build = ["pyinstaller>=6.19.0"]
+
+[project.scripts]
+tool-test-notes-summarizer-12345678 = "notes_summarizer:main"
+
+[tool.uv.sources]
+executa-sdk = { path = "../../sdk/python", editable = true }
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+only-include = ["notes_summarizer.py"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
