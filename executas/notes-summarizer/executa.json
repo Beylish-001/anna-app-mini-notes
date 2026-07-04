@@ -22,17 +22,17 @@
         "supports_protocol": true,
         "binary_urls": {
           "darwin-arm64": {
-            "url": "https://github.com/CHANGEME/anna-app-mini-notes/releases/download/v1.0.0/tool-test-notes-summarizer-12345678-darwin-arm64.tar.gz",
+            "url": "https://github.com/Beylish-001/anna-app-mini-notes/releases/download/v1.0.0/tool-test-notes-summarizer-12345678-darwin-arm64.tar.gz",
             "entrypoint": "tool-test-notes-summarizer-12345678",
             "format": "tar.gz"
           },
           "darwin-x86_64": {
-            "url": "https://github.com/CHANGEME/anna-app-mini-notes/releases/download/v1.0.0/tool-test-notes-summarizer-12345678-darwin-x86_64.tar.gz",
+            "url": "https://github.com/Beylish-001/anna-app-mini-notes/releases/download/v1.0.0/tool-test-notes-summarizer-12345678-darwin-x86_64.tar.gz",
             "entrypoint": "tool-test-notes-summarizer-12345678",
             "format": "tar.gz"
           },
           "windows-x86_64": {
-            "url": "https://github.com/CHANGEME/anna-app-mini-notes/releases/download/v1.0.0/tool-test-notes-summarizer-12345678-windows-x86_64.zip",
+            "url": "https://github.com/Beylish-001/anna-app-mini-notes/releases/download/v1.0.0/tool-test-notes-summarizer-12345678-windows-x86_64.zip",
             "entrypoint": "tool-test-notes-summarizer-12345678.exe",
             "format": "zip"
           }

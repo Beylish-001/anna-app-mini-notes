@@ -2,7 +2,7 @@
   "name": "anna-app-mini-notes",
   "private": true,
   "version": "1.0.0",
-  "description": "Mini Notes with LLM Summary ¡ª Anna App internship test",
+  "description": "Mini Notes with LLM Summary - Anna App",
   "type": "module",
   "scripts": {
     "build": "vite build",
